@@ -9,10 +9,12 @@
   "scripts": {
     "dev": "npx tsx src/index.ts",
     "dev:watch": "ts-node-dev --respawn src/index.ts",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "start": "npx tsx --env-file=.env.local src/index.ts"
   },
   "dependencies": {
     "@octokit/rest": "^21.1.0",
+    "dotenv": "^16.4.7",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3"
   },

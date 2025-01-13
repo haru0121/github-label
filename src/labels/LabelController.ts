@@ -44,10 +44,28 @@ class LabelController {
     async createLabels(owner:string, repo:string, labels:Label[]) {
         try {
             const requestLabels:requestLabel[] = this.getLabelRequestData(owner, repo, labels);
-            const result = Promise.all(requestLabels.map(async (requestLabel) => {
+            return Promise.all(requestLabels.map(async (requestLabel) => {
                 await this.createLabel(requestLabel);
             }));
-            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    private async deleteLabel(owner:string, repo:string,labelName:string) {
+        return await this.octokit.request(`DELETE /repos/${owner}/${repo}/labels/${labelName}`, {
+            owner: owner,
+            repo: repo,
+            name: encodeURIComponent(labelName),
+          });
+    }
+
+    async deleteDefaultLabels(owner:string, repo:string,) {
+        try {
+            const defaultLabels = ['bug', 'documentation', 'duplicate', 'enhancement', 'good first issue', 'help wanted', 'invalid', 'question', 'wontfix'];
+            return await Promise.all(defaultLabels.map(async (labelName) => {
+                await this.deleteLabel(owner, repo, labelName);
+            }));
         } catch (error) {
             console.error(error);
         }
