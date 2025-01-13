@@ -1,0 +1,6 @@
+.env
+.env.local
+.DS_Store
+/src/config/labels.json
+node_modules
+/src/data
